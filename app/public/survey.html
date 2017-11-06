@@ -32,18 +32,26 @@
   <script>
     function appendChoices(question) {
       var choices = $("<div>");
+      choices.addClass("radio");
       for (var i = 1; i < 6; i++) {
-        choices.append($("<label>").text(i).addClass("radio-inline").append($("<input>").attr({
+        var label = $("<label>").addClass("radio-inline");
+        var input = $("<input>");
+        input.attr({
           "type": "radio",
           "name": "question" + question,
           "id": "radio" + question,
           "value": i
-        })));
-        console.log(choices.html());
+        });
+        label.append(input).append(i + " ");
+        choices.append(label);
       }
       return choices;
     }
     $("#questions").append(appendChoices("1"));
+
+    function getvalues() {
+      $('input[name=question1]:checked').val()
+    }
   </script>
 
 </body>
