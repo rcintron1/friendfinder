@@ -33,9 +33,17 @@
         crossorigin="anonymous"></script>
 
 
-        <script>
-            $("#result").html = windows.location.href;
-        </script>
+    <script>
+        $.urlParam = function (name) {
+            var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+            if (results == null) {
+                return null;
+            } else {
+                return decodeURI(results[1]) || 0;
+            }
+        }
+        $("#result").html($.urlParam("name"));
+    </script>
 </body>
 
 </html>
