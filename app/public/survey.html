@@ -81,7 +81,7 @@
       console.log(surveyData);
       $.post("/api/survey", surveyData);
       alert("Survey has been added");
-      window.location ='/';
+      window.location ='/?name=' + surveyData.name;
     });
   </script>
 

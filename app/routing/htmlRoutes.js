@@ -10,9 +10,9 @@ module.exports = function (app) {
         console.log("app.get => ",txtPath("style.css"));
         res.sendFile(path.join(__dirname, txtPath("style.css")));
     });
-    app.get("/result",function (req, res){
-        console.log("app.get => ",txtPath("results.html"));
-        res.sendFile(path.join(__dirname, txtPath("results.html")));
+    app.get("/results/:name",function(){
+        console.log("results");
+        res.sendFile(path.join(__dirname, txtPath("home.html")));
     });
     app.get("*", function (req, res) {
         console.log("app.get => ",txtPath("home.html"));
