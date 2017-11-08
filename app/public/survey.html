@@ -17,31 +17,40 @@
       <small>FINDER</small>
     </h1>
     <div class="btn-group">
-        <a href="/" class="btn btn-info" role="button">Home</a>
-        <a href="/survey" class="btn btn-info" role="button">Survey</a>
+      <a href="/" class="btn btn-info" role="button">Home</a>
+      <a href="/survey" class="btn btn-info" role="button">Survey</a>
     </div>
   </div>
-    
-  <div id="questions">
 
-  </div>
+  <form class="navbar-form navbar-left">
+
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="Your Name" id="name">
+      <input type="text" class="form-control" placeholder="URL" id="imageUrl">
+    </div>
 
 
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
-    crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-    crossorigin="anonymous"></script>
+    <div id="questions"></div>
+    <div class="btn-group">
+      <button class="btn btn-info" id="resetbutton" type="button">Reset</button>
+      <button class="btn btn-info" id="sendbutton" type="button">send</button>
+    </div>
+  </form>
+
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   <script>
-    function appendChoices(question) {
-      var choices = $("<div>");
-      choices.addClass("radio");
+    function appendChoices(id, question) {
+      var choices = $("<div>"),
+        questionCount = 0;;
+      choices.append($("<p>").append(question));
       for (var i = 1; i < 6; i++) {
         var label = $("<label>").addClass("radio-inline");
-        var input = $("<input>");
+        var input = $("<input>").addClass("radiothing");
         input.attr({
           "type": "radio",
-          "name": "question" + question,
-          "id": "radio" + question,
+          "name": "question" + id,
+          "id": "radio" + id,
           "value": i
         });
         label.append(input).append(i + " ");
@@ -49,20 +58,33 @@
       }
       return choices;
     }
-    var questions = [
-      "I'm sorry, I'm a vegan <-> If it doesn't bleed, I don't eat it",
-      "I consider yoga a sport <-> If your bones have not been broken, you have not participated in a sport",
-      "Fuchsia is the new Flavescent <-> I only know black & blue",
-      "My mood is ambivolent at times <-> I don't know what that word is, but it's making me angry",
-      "Silence is the best protest <-> He/she didn't get the point until I hear 'Ow!'"
-    ]
-    for (var i=0; i< questions.length; i++);
-    $("#questions").append(appendChoices("1"));
 
-    function getvalues() {
-      $('input[name=question1]:checked').val()
-    }
+    $.get("/api/questions", function (data) {
+      questionCount = data.questions.length;
+      for (var i = 0; i < questionCount; i++) {
+        $("#questions").append(appendChoices(i, data.questions[i])).append("<br>");
+      }
+    });
+    $("#resetbutton").on("click", function () {
+      $(".radiothing").removeAttr("checked");
+    });
+    $("#sendbutton").on("click", function () {
+      var scores = [];
+      var surveyData = {
+        "name": $("#name").val(),
+        "URL": $("#imageUrl").val(),
+        "score": scores
+      };
+      for (var i = 0; i < questionCount; i++) {
+        surveyData.score.push(parseInt($('input[name=question' + i + ']:checked').val()));
+      }
+      console.log(surveyData);
+      $.post("/api/survey", surveyData);
+      alert("Survey has been added");
+      window.location ='/';
+    });
   </script>
 
 </body>
+
 </html>

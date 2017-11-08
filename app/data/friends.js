@@ -1,8 +1,8 @@
 var friendData = [
     {
         name: "Roli",
-        email: "rolo@polo.com",
-        answers: {1:4,2:2,3:3,4:3,5:3,6:4,7:4,8:5,9:4,10:3}
+        photo: "https://scontent-iad3-1.xx.fbcdn.net/v/t1.0-1/p720x720/19642417_10155284979736346_6420438756396415525_n.jpg?oh=d74a8c065aa42bfdcb6d6c74671c5de5&oe=5A6ED51E",
+        scores: [4,2,3,3,3,4,4,5,4,3]
     }
 ];
 
