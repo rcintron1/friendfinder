@@ -2,7 +2,7 @@ var express = require("express"), bodyParser = require("body-parser"), PORT = 80
 
 var app = express();
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 require("./app/routing/apiRoutes")(app);

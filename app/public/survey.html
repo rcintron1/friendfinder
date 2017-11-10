@@ -37,7 +37,8 @@
     </div>
   </form>
 
-  <script src="https://code.jquery.com/jquery.js"></script>
+  <!-- <script src="https://code.jquery.com/jquery.js"></script> -->
+  <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   <script>
     function appendChoices(id, question) {
@@ -81,7 +82,7 @@
       console.log(surveyData);
       $.post("/api/survey", surveyData);
       alert("Survey has been added");
-      window.location ='/?name=' + surveyData.name;
+      window.location = '/?name=' + surveyData.name;
     });
   </script>
 
