@@ -74,10 +74,10 @@
       var surveyData = {
         "name": $("#name").val(),
         "photo": $("#imageUrl").val(),
-        "score": scores
+        "scores": scores
       };
       for (var i = 0; i < questionCount; i++) {
-        surveyData.score.push(parseInt($('input[name=question' + i + ']:checked').val()));
+        surveyData.scores.push(parseInt($('input[name=question' + i + ']:checked').val()));
       }
       console.log(surveyData);
       $.post("/api/survey", surveyData);
