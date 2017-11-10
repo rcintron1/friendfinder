@@ -27,7 +27,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 
-        <script>
+    <script>
         $.urlParam = function (name) {
             var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
             if (results == null) {
@@ -36,16 +36,57 @@
                 return decodeURI(results[1]) || 0;
             }
         }
-        if($.urlParam("name")){
+        if ($.urlParam("name")) {
             var dbfriends;
-            $.get("/api/friends",function(data){
-                dbfriends = data;
-                console.log(dbfriends);
+            var user = $.urlParam("name");
+            $.get("/api/friends", function (data) {
+                console.log(user, data);;
+                getBestFriend(user, data);
             });
-            $("#result").html($.urlParam("name"));
-
         }
-        </script>
+        function getAvg (numArray){
+            var x = 0;
+            for(var i=0; i < numArray.length; i++){
+                x+=numArray[i];
+            }
+            console.log("getAvg",numArray,x);
+            return x/numArray.length;
+        }
+        function getBestFriend(name, usersarray) {
+            var mainUser;
+            var otherUsers = [];
+            var bestFriend = {
+                name: "",
+                value: "",
+                photo: ""
+            }
+            for (var i = 0; i < usersarray.length; i++) {
+                if (usersarray[i].name === name) {
+                    console.log("line 64 - ", usersarray[i].name);
+                    mainUser = usersarray[i];
+                } else {
+                    console.log("line 67 - ", usersarray[i].name);
+                    otherUsers.push(usersarray[i])
+                }
+            }
+            for (var i = 0; i < otherUsers.length; i++) { //iterate other users
+                var other = otherUsers[i],
+                    comparison = []; //place other user on var other
+                console.log(other);
+                for (var i = 0; i < other.scores.length; i++) { // iterate through other user's scores
+                    comparison.push(Math.abs(mainUser.score[i] -
+                        other.scores[i]));
+                }
+                console.log(getAvg(comparison));
+                if (getAvg(comparison) > bestFriend.value) {
+                    bestFriend.name = other.name;
+                    bestFriend.value = comparison;
+                    bestFriend.photo = other.photo;
+                }
+            }
+            console.log(bestFriend);
+        }
+    </script>
 </body>
 
 </html>
